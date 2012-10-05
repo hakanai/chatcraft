@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'zing'
+require 'chatcraft'
 
-Zing.startup
+Chatcraft.startup
 

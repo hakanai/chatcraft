@@ -1,0 +1,9 @@
+connections:
+- protocol: xmpp
+  jid: chatcraft@example.com
+  password: chatcraft101
+- protocol: irc
+  host: irc.example.com
+  nick: chatcraft
+  channels:
+  - '#chatcraft'

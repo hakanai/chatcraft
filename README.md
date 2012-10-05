@@ -7,8 +7,8 @@ Admittedly there isn't much here yet, but here's what we have:
 
 Getting started:
 
-* Copy zing.config.example to zing.config and edit it.
-* `ruby bin/zing`
+* Copy chatcraft.config.example to chatcraft.config and edit it.
+* `ruby bin/chatcraft`
 
 Obvious TODOs:
 

@@ -1,9 +1,0 @@
-connections:
-- protocol: xmpp
-  jid: zing@example.com
-  password: zing101
-- protocol: irc
-  host: irc.example.com
-  nick: zing
-  channels:
-  - '#zing'

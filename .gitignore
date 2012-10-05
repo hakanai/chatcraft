@@ -2,5 +2,5 @@
 .bundle
 Gemfile.lock
 pkg/*
-/zing.config
+/chatcraft.config
 .DS_Store

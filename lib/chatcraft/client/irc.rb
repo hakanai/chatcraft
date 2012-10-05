@@ -1,7 +1,7 @@
-require 'zing/client/base'
+require 'chatcraft/client/base'
 require 'em-irc'
 
-module Zing; module Client
+module Chatcraft; module Client
 
   # Client abstraction implementation for IRC.
   class IRC < Base

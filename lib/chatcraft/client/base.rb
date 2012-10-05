@@ -1,4 +1,4 @@
-module Zing; module Client
+module Chatcraft; module Client
 
   # Base class fir client abstractions. The goal here is that the caller shouldn't
   # really need to know how to use each protocol.

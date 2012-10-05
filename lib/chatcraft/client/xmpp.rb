@@ -1,8 +1,8 @@
-require 'zing/client/base'
+require 'chatcraft/client/base'
 require 'blather/client/client'
 require 'blather/stanza/message'
 
-module Zing; module Client
+module Chatcraft; module Client
 
   # Client abstraction implementation for XMPP.
   class XMPP < Base

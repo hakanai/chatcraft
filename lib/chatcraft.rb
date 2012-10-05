@@ -1,8 +1,8 @@
-require 'zing/version'
-require 'zing/client/irc'
-require 'zing/client/xmpp'
+require 'chatcraft/version'
+require 'chatcraft/client/irc'
+require 'chatcraft/client/xmpp'
 
-module Zing
+module Chatcraft
   def self.startup
     begin
       EventMachine.run do
@@ -15,9 +15,9 @@ module Zing
 
   def self.inner_startup
     begin
-      config = YAML.load_file('zing.config')
+      config = YAML.load_file('chatcraft.config')
     rescue Errno::ENOENT
-      raise 'Config file not found (looking for zing.config in the current directory)'
+      raise 'Config file not found (looking for chatcraft.config in the current directory)'
     end
 
     connections = config['connections'] || raise('Missing parameter: connections')
@@ -26,9 +26,9 @@ module Zing
       protocol = conn['protocol'] || raise('Missing parameter: protocol')
       client = case protocol
       when 'xmpp'
-        Zing::Client::XMPP::new(conn)
+        Chatcraft::Client::XMPP::new(conn)
       when 'irc'
-        Zing::Client::IRC::new(conn)
+        Chatcraft::Client::IRC::new(conn)
       else
         raise("Unknown protocol: #{protocol}")
       end
@@ -55,6 +55,6 @@ module Zing
       client.connect
     end
 
-    # TODO: Shutdown would be nice, I guess I'll have Zing::ConnectionManager or something for that.
+    # TODO: Shutdown would be nice, I guess I'll have Chatcraft::ConnectionManager or something for that.
   end
 end
