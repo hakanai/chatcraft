@@ -5,6 +5,11 @@ Admittedly there isn't much here yet, but here's what we have:
 * Skeleton client implementation for XMPP on top of blather
 * Initialisation of clients from configuration
 
+Getting started:
+
+* Copy zing.config.example to zing.config and edit it.
+* `ruby bin/zing`
+
 Obvious TODOs:
 
 * Command system
