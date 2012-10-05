@@ -27,6 +27,10 @@ module Chatcraft; module Client
           outer.fire(:connected)
         end
 
+        on :disconnect do
+          outer.fire(:disconnected)
+        end
+
         on :join do |who, channel, names|
           if who == nick
             channel.gsub!(/^:/, '')
@@ -54,6 +58,7 @@ module Chatcraft; module Client
     end
 
     def disconnect
+      fire(:disconnecting)
       @client.quit
     end
 

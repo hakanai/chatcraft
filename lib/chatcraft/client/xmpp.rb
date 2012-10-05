@@ -20,6 +20,10 @@ module Chatcraft; module Client
         fire(:connected)
       end
 
+      @client.register_handler(:disconnected) do
+        fire(:disconnected)
+      end
+
       # Always approve subscription requests.
       @client.register_handler :subscription, :request? do |s|
         @client.write s.approve!
@@ -36,6 +40,7 @@ module Chatcraft; module Client
     end
 
   	def disconnect
+      fire(:disconnecting)
   	  @client.close
   	end
 

@@ -8,7 +8,7 @@ module Chatcraft
     def initialize
       @clients = []
     end
-    
+
     # Adds multiple clients. The config is an array of config hashes for add_client.
     def add_clients(config)
       config.each do |subconfig|
@@ -41,6 +41,12 @@ module Chatcraft
         end
         client.on(:connected) do
           puts "Connected to #{client.name}"
+        end
+        client.on(:disconnecting) do
+          puts "Disconnecting from #{client.name}"
+        end
+        client.on(:disconnected) do
+          puts "Disconnected from #{client.name}"
         end
         client.on(:joined) do |group|
           puts "Joined #{group} on #{client.name}"

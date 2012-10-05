@@ -8,7 +8,10 @@ module Chatcraft; module Client
     #
     # Supported event types:
     #
+    #   :connecting
     #   :connected
+    #   :disconnecting
+    #   :disconnected
     #
     #   :joined
     #     - group
