@@ -1,6 +1,6 @@
-require 'zing/irc'
 require 'zing/version'
-require 'zing/xmpp'
+require 'zing/client/irc'
+require 'zing/client/xmpp'
 
 module Zing
   def self.startup
@@ -16,9 +16,9 @@ module Zing
       protocol = conn['protocol'] || raise('Missing parameter: protocol')
       client = case protocol
       when 'xmpp'
-        Zing::XMPP::new(conn)
+        Zing::Client::XMPP::new(conn)
       when 'irc'
-        Zing::IRC::new(conn)
+        Zing::Client::IRC::new(conn)
       else
         raise("Unknown protocol: #{protocol}")
       end

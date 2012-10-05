@@ -1,10 +1,11 @@
-require 'zing/event_helper'
+require 'zing/client/base'
 require 'blather/client/client'
+require 'blather/stanza/message'
 
-module Zing
+module Zing; module Client
 
-  class XMPP
-    include EventHelper
+  # Client abstraction implementation for XMPP.
+  class XMPP < Base
 
     attr_reader :name
 
@@ -25,7 +26,7 @@ module Zing
       end
 
       @client.register_handler :message, :chat?, :body do |m|
-        fire(:private_message, m.from, m.body)
+        fire(:private_message, User.new(m.from), m.body)
       end
   	end
 
@@ -37,6 +38,24 @@ module Zing
   	def close
   	  @client.close
   	end
+
+    class User
+      attr_reader :client
+      attr_reader :name
+
+      def initialize(client, name)
+        @client = client
+        @name = name
+      end
+
+      def to_s
+        name
+      end
+
+      def say(message)
+        @client.write(Blather::Stanza::Message.new(name, message))
+      end
+    end
   end
 
-end
+end; end
