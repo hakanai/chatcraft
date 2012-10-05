@@ -13,41 +13,40 @@ module Chatcraft; module Client
       host = config['host'] || raise('Missing parameter: host')
       nick = config['nick'] || raise('Missing parameter: nick')
       channels = config['channels'] || raise('Missing parameter: channels')
-      outer = self
 
       @handlers = {}
 
       @client = EventMachine::IRC::Client.new do
         host(host)
         port('6667')
+      end
 
-        on :connect do
-          nick(nick)
-          channels.each { |ch| join(ch) }
-          outer.fire(:connected)
+      @client.on :connect do
+        @client.nick(nick)
+        channels.each { |ch| @client.join(ch) }
+        fire(:connected)
+      end
+
+      @client.on :disconnect do
+        fire(:disconnected)
+      end
+
+      @client.on :join do |who, channel, names|
+        if who == @client.nick
+          channel.gsub!(/^:/, '')
+          fire(:joined, Group.new(self, channel))
+        else
+          # it was someone else
         end
+      end
 
-        on :disconnect do
-          outer.fire(:disconnected)
-        end
-
-        on :join do |who, channel, names|
-          if who == nick
-            channel.gsub!(/^:/, '')
-            outer.fire(:joined, Group.new(outer, channel))
-          else
-            # it was someone else
-          end
-        end
-
-        on :message do |source, target, message|
-          if channel?(target)
-            outer.fire(:group_message, User.new(outer, source), Group.new(outer, target), message)
-          elsif target == nick
-            outer.fire(:private_message, User.new(outer, source), message)
-          else
-            puts "*** Not sure who this is to. target = #{target}"
-          end
+      @client.on :message do |source, target, message|
+        if @client.channel?(target)
+          fire(:group_message, User.new(self, source), Group.new(self, target), message)
+        elsif target == @client.nick
+          fire(:private_message, User.new(self, source), message)
+        else
+          puts "*** Not sure who this is to. target = #{target}"
         end
       end
     end
