@@ -5,6 +5,16 @@ require 'zing/client/xmpp'
 module Zing
   def self.startup
     begin
+      EventMachine.run do
+        inner_startup
+      end
+    rescue Interrupt
+      puts "Exiting due to interrupt."
+    end
+  end
+
+  def self.inner_startup
+    begin
       config = YAML.load_file('zing.config')
     rescue Errno::ENOENT
       raise 'Config file not found (looking for zing.config in the current directory)'

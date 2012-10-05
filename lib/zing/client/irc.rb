@@ -30,7 +30,7 @@ module Zing; module Client
         on :join do |who, channel, names|
           if who == nick
             channel.gsub!(/^:/, '')
-            outer.fire(:joined, Group.new(channel))
+            outer.fire(:joined, Group.new(outer, channel))
           else
             # it was someone else
           end
@@ -38,9 +38,9 @@ module Zing; module Client
 
         on :message do |source, target, message|
           if channel?(target)
-            outer.fire(:group_message, User.new(source), Group.new(target), message)
+            outer.fire(:group_message, User.new(outer, source), Group.new(outer, target), message)
           elsif target == nick
-            outer.fire(:private_message, User.new(source), message)
+            outer.fire(:private_message, User.new(outer, source), message)
           else
             puts "*** Not sure who this is to. target = #{target}"
           end

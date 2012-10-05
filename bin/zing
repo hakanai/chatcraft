@@ -1,12 +1,6 @@
 require 'rubygems'
-# Including bundler makes everything explode so we'll just avoid that I guess.
 require 'bundler/setup'
 require 'zing'
-# Not needed if using bundler:
-#$LOAD_PATH << "#{File.dirname(__FILE__)}/../lib"
-#require 'zing'
-#require 'eventmachine'
 
-EventMachine.run do
-  Zing.startup
-end
+Zing.startup
+

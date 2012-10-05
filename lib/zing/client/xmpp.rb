@@ -26,7 +26,7 @@ module Zing; module Client
       end
 
       @client.register_handler :message, :chat?, :body do |m|
-        fire(:private_message, User.new(m.from), m.body)
+        fire(:private_message, User.new(self, m.from), m.body)
       end
   	end
 
