@@ -3,3 +3,4 @@
 Gemfile.lock
 pkg/*
 /zing.config
+.DS_Store
