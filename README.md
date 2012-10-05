@@ -10,6 +10,7 @@ Obvious TODOs:
 * Command system
 * Keyboard listener to execute commands at the console (equivalent to doing it via private chat but no need to authenticate)
 * A way to recognise users so that we can make useful bot functions
+* Groupchat/conference support for XMPP (inconvenient right now as Google Talk don't have a conference server)
 * Removal of hard-coded set of supported clients
 
 For use as a client rather than a bot:
