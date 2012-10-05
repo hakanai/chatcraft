@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Trejkaz"]
   s.email       = ["trejkaz@trypticon.org"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{EventMachine-based, multi-protocol chat client}
+  s.description = %q{EventMachine-based, multi-protocol chat client. Aiming to support IRC and XMPP with the protocol differences abstracted away so that plugins don't have to know about it.}
 
   #s.rubyforge_project = "chatcraft"
 

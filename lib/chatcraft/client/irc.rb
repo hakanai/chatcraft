@@ -54,7 +54,7 @@ module Chatcraft; module Client
     end
 
     def disconnect
-      #TODO: I can't figure out how to disconnect this client.
+      @client.quit
     end
 
     class User

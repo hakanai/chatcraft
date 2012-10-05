@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-require 'chatcraft'
+require 'chatcraft/main'
 
-Chatcraft.startup
+Chatcraft::Main.new.startup
 

@@ -35,7 +35,7 @@ module Chatcraft; module Client
       @client.run
     end
 
-  	def close
+  	def disconnect
   	  @client.close
   	end
 
