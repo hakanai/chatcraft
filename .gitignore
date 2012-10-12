@@ -3,4 +3,5 @@
 Gemfile.lock
 pkg/*
 /chatcraft.config
+/coverage
 .DS_Store
