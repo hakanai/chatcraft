@@ -48,8 +48,11 @@ module Chatcraft
         client.on(:disconnected) do
           puts "Disconnected from #{client.name}"
         end
-        client.on(:joined) do |group|
+        client.on(:bot_joined) do |group|
           puts "Joined #{group} on #{client.name}"
+        end
+        client.on(:joined) do |user, group|
+          puts "#{user} joined #{group} on #{client.name}"
         end
         client.on(:private_message) do |who, message|
           puts "Private message on #{client.name} from #{who}: #{message}"

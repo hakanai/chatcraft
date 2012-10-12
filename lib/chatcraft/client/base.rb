@@ -13,7 +13,11 @@ module Chatcraft; module Client
     #   :disconnecting
     #   :disconnected
     #
+    #   :bot_joined
+    #     - group
+    #
     #   :joined
+    #     - user
     #     - group
     #
     #   :private_message

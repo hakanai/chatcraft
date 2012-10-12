@@ -32,11 +32,11 @@ module Chatcraft; module Client
       end
 
       @client.on :join do |who, channel, names|
+        channel.gsub!(/^:/, '')
         if who == @client.nick
-          channel.gsub!(/^:/, '')
-          fire(:joined, Group.new(self, channel))
+          fire(:bot_joined, Group.new(self, channel))
         else
-          # it was someone else
+          fire(:joined, User.new(self, who), Group.new(self, channel))
         end
       end
 
