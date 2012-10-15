@@ -7,11 +7,12 @@ module Chatcraft; module Client
   class IRC < Base
 
     attr_reader :name
+    attr_reader :bot_name
 
     def initialize(config)
       @name = config['name'] || raise('Missing parameter: name')
       host = config['host'] || raise('Missing parameter: host')
-      nick = config['nick'] || raise('Missing parameter: nick')
+      @bot_name = config['nick'] || raise('Missing parameter: nick')
       channels = config['channels'] || raise('Missing parameter: channels')
 
       @handlers = {}
@@ -22,7 +23,7 @@ module Chatcraft; module Client
       end
 
       @client.on :connect do
-        @client.nick(nick)
+        @client.nick(@bot_name)
         channels.each { |ch| @client.join(ch) }
         fire(:connected)
       end
@@ -32,8 +33,8 @@ module Chatcraft; module Client
       end
 
       @client.on :join do |who, channel, names|
-        channel.gsub!(/^:/, '')
-        if who == @client.nick
+        channel = channel.gsub(/^:/, '')
+        if who == @client.bot_name
           fire(:bot_joined, Group.new(self, channel))
         else
           fire(:joined, User.new(self, who), Group.new(self, channel))
@@ -42,9 +43,9 @@ module Chatcraft; module Client
 
       @client.on :message do |source, target, message|
         if @client.channel?(target)
-          fire(:group_message, User.new(self, source), Group.new(self, target), message)
-        elsif target == @client.nick
-          fire(:private_message, User.new(self, source), message)
+          fire(:group_message, User.new(self, source), Group.new(self, target), Messages::Message.new(message))
+        elsif target == @client.bot_name
+          fire(:private_message, User.new(self, source), Messages::Message.new(message))
         else
           puts "*** Not sure who this is to. target = #{target}"
         end

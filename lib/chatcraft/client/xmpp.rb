@@ -1,4 +1,5 @@
 require 'chatcraft/client/base'
+require 'chatcraft/messages/message'
 require 'blather/client/client'
 require 'blather/stanza/message'
 
@@ -8,6 +9,7 @@ module Chatcraft; module Client
   class XMPP < Base
 
     attr_reader :name
+    attr_reader :bot_name
 
   	def initialize(config)
       @name = config['name'] || raise('Missing parameter: name')
@@ -30,7 +32,7 @@ module Chatcraft; module Client
       end
 
       @client.register_handler :message, :chat?, :body do |m|
-        fire(:private_message, User.new(self, m.from), m.body)
+        fire(:private_message, User.new(self, m.from), Messages::Message.new(m.body))
       end
   	end
 
