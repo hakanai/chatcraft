@@ -21,7 +21,7 @@ module Chatcraft
     # Adds a client. The config is a hash with a 'protocol' key indicating the protocol and
     # protocol-specific options for the respective client.
     def add_client(config)
-      protocol = config['protocol'] || raise('Missing parameter: protocol')
+      protocol = config.protocol || raise('Missing parameter: protocol')
       # TODO: Remove this hard-coded list of supported protocols. Detect subclasses of Client::Base?
       client = case protocol
       when 'xmpp'

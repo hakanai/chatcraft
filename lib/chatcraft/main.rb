@@ -1,6 +1,7 @@
 require 'chatcraft/version'
 require 'chatcraft/client_manager'
 require 'chatcraft/plugin_manager'
+require 'chatcraft/util/config'
 
 module Chatcraft
 
@@ -19,18 +20,14 @@ module Chatcraft
 
     # Starts up Chatcraft (assumes that EventMachine is already running.)
     def inner_startup
-      begin
-        config = YAML.load_file('chatcraft.config')
-      rescue Errno::ENOENT
-        raise 'Config file not found (looking for chatcraft.config in the current directory)'
-      end
+      config = Chatcraft::Util::Config.load_file
 
-      connections = config['connections'] || raise('Missing parameter: connections')
+      connections = config.connections || raise('Missing parameter: connections')
       @manager = ClientManager.new
       @manager.add_clients(connections)
       @manager.connect_all
 
-      plugins = config['plugins'] || raise('Missing parameter: plugins')
+      plugins = config.plugins || raise('Missing parameter: plugins')
       @plugin_manager = PluginManager.new
       @plugin_manager.add_plugins(plugins)
       @manager.on_any do |type, event|

@@ -13,10 +13,10 @@ module Chatcraft; module Client
     attr_reader :client
     
     def initialize(config)
-      @name = config['name'] || raise('Missing parameter: name')
-      host = config['host'] || raise('Missing parameter: host')
-      @bot_name = config['nick'] || raise('Missing parameter: nick')
-      channels = config['channels'] || raise('Missing parameter: channels')
+      @name = config.name || raise('Missing parameter: name')
+      host = config.host || raise('Missing parameter: host')
+      @bot_name = config.nick || raise('Missing parameter: nick')
+      channels = config.channels || raise('Missing parameter: channels')
 
       @handlers = {}
 

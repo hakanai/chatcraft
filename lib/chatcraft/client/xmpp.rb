@@ -12,9 +12,9 @@ module Chatcraft; module Client
     attr_reader :bot_name
 
   	def initialize(config)
-      @name = config['name'] || raise('Missing parameter: name')
-  	  jid = config['jid'] || raise('Missing parameter: jid')
-  	  password = config['password'] || raise('Missing parameter: password')
+      @name = config.name || raise('Missing parameter: name')
+  	  jid = config.jid || raise('Missing parameter: jid')
+  	  password = config.password || raise('Missing parameter: password')
   	  @client = Blather::Client.setup(jid, password)
 
       # TODO: Delegate this to our own handler
