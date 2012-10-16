@@ -1,5 +1,5 @@
 require 'chatcraft/client/base'
-require 'chatcraft/messages/message'
+require 'chatcraft/message'
 require 'blather/client/client'
 require 'blather/stanza/message'
 
@@ -19,11 +19,11 @@ module Chatcraft; module Client
 
       # TODO: Delegate this to our own handler
       @client.register_handler(:ready) do
-        fire(:connected)
+        fire(:connected, Event.new)
       end
 
       @client.register_handler(:disconnected) do
-        fire(:disconnected)
+        fire(:disconnected, Event.new)
       end
 
       # Always approve subscription requests.
@@ -32,17 +32,17 @@ module Chatcraft; module Client
       end
 
       @client.register_handler :message, :chat?, :body do |m|
-        fire(:private_message, User.new(self, m.from), Messages::Message.new(m.body))
+        fire(:private_message, Event.new(:user => User.new(self, m.from), :message => Message.new(m.body)))
       end
   	end
 
     def connect
-      fire(:connecting)
+      fire(:connecting, Event.new)
       @client.run
     end
 
   	def disconnect
-      fire(:disconnecting)
+      fire(:disconnecting, Event.new)
   	  @client.close
   	end
 

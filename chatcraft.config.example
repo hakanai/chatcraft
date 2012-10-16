@@ -7,3 +7,5 @@ connections:
   nick: chatcraft
   channels:
   - '#chatcraft'
+plugins:
+- example

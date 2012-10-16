@@ -13,10 +13,12 @@ module Chatcraft; module Plugins
 
     # Matches a group message. If the message matches any of the group message rules for the plugin,
     # the plugin is called and we return true. Otherwise, we return false.
-    def handle_group_message(user, group, message)
+    def handle_group_message(event)
       @plugin.class._group_message_rules.each do |rule, params|
-        if message_params = message.match(rule)
-          call_plugin(params[:call], user, group, message, message_params)
+        if message_params = event.message.match(rule)
+          event = event.clone
+          event.message_params = message_params
+          call_plugin(params[:call], event)
           return true
         end
       end

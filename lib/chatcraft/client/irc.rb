@@ -1,4 +1,5 @@
 require 'chatcraft/client/base'
+require 'chatcraft/message'
 require 'em-irc'
 
 module Chatcraft; module Client
@@ -9,6 +10,8 @@ module Chatcraft; module Client
     attr_reader :name
     attr_reader :bot_name
 
+    attr_reader :client
+    
     def initialize(config)
       @name = config['name'] || raise('Missing parameter: name')
       host = config['host'] || raise('Missing parameter: host')
@@ -25,27 +28,30 @@ module Chatcraft; module Client
       @client.on :connect do
         @client.nick(@bot_name)
         channels.each { |ch| @client.join(ch) }
-        fire(:connected)
+        fire(:connected, Event.new)
       end
 
       @client.on :disconnect do
-        fire(:disconnected)
+        fire(:disconnected, Event.new)
       end
 
       @client.on :join do |who, channel, names|
         channel = channel.gsub(/^:/, '')
-        if who == @client.bot_name
-          fire(:bot_joined, Group.new(self, channel))
+        if who == @bot_name
+          fire(:bot_joined, Event.new(:group => Group.new(self, channel)))
         else
-          fire(:joined, User.new(self, who), Group.new(self, channel))
+          fire(:joined, Event.new(:user => User.new(self, who), :group => Group.new(self, channel)))
         end
       end
 
       @client.on :message do |source, target, message|
-        if @client.channel?(target)
-          fire(:group_message, User.new(self, source), Group.new(self, target), Messages::Message.new(message))
-        elsif target == @client.bot_name
-          fire(:private_message, User.new(self, source), Messages::Message.new(message))
+        # channel? is useful but protected.
+        if @client.send(:channel?, target)
+          fire(:group_message, Event.new(:user => User.new(self, source),
+                                         :group => Group.new(self, target),
+                                         :message => Message.new(message)))
+        elsif target == @bot_name
+          fire(:private_message, Event.new(:user => User.new(self, source), :group => Message.new(message)))
         else
           puts "*** Not sure who this is to. target = #{target}"
         end
@@ -53,12 +59,12 @@ module Chatcraft; module Client
     end
 
     def connect
-      fire(:connecting)
+      fire(:connecting, Event.new)
       @client.connect
     end
 
     def disconnect
-      fire(:disconnecting)
+      fire(:disconnecting, Event.new)
       @client.quit
     end
 
@@ -76,7 +82,7 @@ module Chatcraft; module Client
       end
 
       def say(message)
-        @client.message(name, message)
+        @client.client.privmsg(name, message)
       end
     end
 
@@ -94,7 +100,7 @@ module Chatcraft; module Client
       end
 
       def say(message)
-        @client.message(name, message)
+        @client.client.privmsg(name, message)
       end
     end
   end

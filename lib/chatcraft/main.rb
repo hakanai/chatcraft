@@ -1,5 +1,6 @@
 require 'chatcraft/version'
 require 'chatcraft/client_manager'
+require 'chatcraft/plugin_manager'
 
 module Chatcraft
 
@@ -28,6 +29,13 @@ module Chatcraft
       @manager = ClientManager.new
       @manager.add_clients(connections)
       @manager.connect_all
+
+      plugins = config['plugins'] || raise('Missing parameter: plugins')
+      @plugin_manager = PluginManager.new
+      @plugin_manager.add_plugins(plugins)
+      @manager.on_any do |type, event|
+        @plugin_manager.handle(type, event)
+      end
 
       EventMachine.open_keyboard(KeyboardInput, self)
     end

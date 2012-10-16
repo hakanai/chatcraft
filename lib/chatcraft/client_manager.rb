@@ -1,9 +1,11 @@
 require 'chatcraft/client/irc'
 require 'chatcraft/client/xmpp'
+require 'chatcraft/util/event_system'
 
 module Chatcraft
 
   class ClientManager
+    include Chatcraft::Util::EventSystem
 
     def initialize
       @clients = []
@@ -29,6 +31,11 @@ module Chatcraft
       else
         raise("Unknown protocol: #{protocol}")
       end
+      client.on_any do |type, event|
+        event = event.clone
+        event.client = client
+        fire(type, event)
+      end
       @clients << client
     end
 
@@ -48,17 +55,17 @@ module Chatcraft
         client.on(:disconnected) do
           puts "Disconnected from #{client.name}"
         end
-        client.on(:bot_joined) do |group|
-          puts "Joined #{group} on #{client.name}"
+        client.on(:bot_joined) do |event|
+          puts "Joined #{event.group} on #{client.name}"
         end
-        client.on(:joined) do |user, group|
-          puts "#{user} joined #{group} on #{client.name}"
+        client.on(:joined) do |event|
+          puts "#{event.user} joined #{event.group} on #{client.name}"
         end
-        client.on(:private_message) do |who, message|
-          puts "Private message on #{client.name} from #{who}: #{message}"
+        client.on(:private_message) do |event|
+          puts "Private message on #{event.group} from #{event.user}: #{event.message}"
         end
-        client.on(:group_message) do |who, group, message|
-          puts "Group message on #{client.name} #{group} from #{who}: #{message}"
+        client.on(:group_message) do |event|
+          puts "Group message on #{client.name} #{event.group} from #{event.user}: #{event.message}"
         end
         client.connect
       end

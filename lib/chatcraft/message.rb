@@ -1,4 +1,4 @@
-module Chatcraft; module Messages
+module Chatcraft
 
   # Holds a parsed message.
   class Message
@@ -98,4 +98,4 @@ private
     end
   end
 
-end; end
+end
