@@ -13,7 +13,6 @@ Getting started:
 
 Obvious TODOs:
 
-* The config hash is currently string indexed but I would rather use symbols. I would also rather not have to handle missing parameters for every single mandatory parameter I introduce.
 * Plugins currently load from a file on the load path with the same name as the plugin you requested, but people might want to namespace their plugins and at the moment, that won't work unless the name has the full path (maybe that's OK... I'm thinking about it.)
 * Ability to load and unload plugins at run-time would be nice.
 * Command system for the admin console
