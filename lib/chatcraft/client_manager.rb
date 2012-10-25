@@ -11,8 +11,8 @@ module Chatcraft
       @clients = []
     end
 
-    # Adds multiple clients. The config is an array of config hashes for add_client.
-    def add_clients(config)
+    # Configures the client manager. The config is an array of config hashes for add_client.
+    def configure(config)
       config.each do |subconfig|
         add_client(subconfig)
       end

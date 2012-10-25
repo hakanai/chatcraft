@@ -5,6 +5,10 @@ class Example < Chatcraft::Plugins::Base
 
   on :group_message, ['hi', :target], :call => :hi
 
+  def configure(config)
+    # config hash for the plugin is passed here
+  end
+
   def hi(event)
     if event.message_params[:target] == event.group.client.bot_name
       event.group.say "hi, #{event.user}!"

@@ -11,6 +11,10 @@ module Chatcraft; module Plugins
       @plugin = plugin_class.new
     end
 
+    def configure(config)
+      @plugin.configure(config)
+    end
+    
     # Matches a group message. If the message matches any of the group message rules for the plugin,
     # the plugin is called and we return true. Otherwise, we return false.
     def handle_group_message(event)

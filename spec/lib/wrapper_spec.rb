@@ -3,6 +3,22 @@ require 'chatcraft/event'
 require 'chatcraft/message'
 require 'chatcraft/plugins/base'
 require 'chatcraft/plugins/wrapper'
+require 'chatcraft/util/config'
+
+describe Chatcraft::Plugins::Wrapper, '#configure' do
+  it "passes configuration to the plugin" do
+    class TestPlugin < Chatcraft::Plugins::Base
+      attr_reader :called
+      def configure(config)
+        config.value.should == 3
+        @called = true
+      end
+    end
+    wrapper = Chatcraft::Plugins::Wrapper.new(TestPlugin)
+    wrapper.configure(Chatcraft::Util::Config.new('name' => 'test', 'value' => 3))
+    wrapper.plugin.called.should == true
+  end
+end
 
 describe Chatcraft::Plugins::Wrapper, '#handle_group_message' do
 

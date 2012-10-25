@@ -24,17 +24,18 @@ module Chatcraft
 
       connections = config.connections || raise('Missing parameter: connections')
       @manager = ClientManager.new
-      @manager.add_clients(connections)
-      @manager.connect_all
+      @manager.configure(connections)
 
       plugins = config.plugins || raise('Missing parameter: plugins')
       @plugin_manager = PluginManager.new
-      @plugin_manager.add_plugins(plugins)
+      @plugin_manager.configure(plugins)
       @manager.on_any do |type, event|
         @plugin_manager.handle(type, event)
       end
 
       EventMachine.open_keyboard(KeyboardInput, self)
+
+      @manager.connect_all
     end
 
     # Shuts down Chatcraft.

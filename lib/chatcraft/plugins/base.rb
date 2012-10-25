@@ -6,8 +6,10 @@ module Chatcraft; module Plugins
     # Hook to detect subclasses being loaded.
     def self.inherited(klass)
       _known_plugins << klass
-      klass.extend(ClassMethods)
-      #klass.include(InstanceMethods)
+      klass.instance_eval do
+        extend ClassMethods
+        include InstanceMethods
+      end
     end
 
     # TODO: Find a better way to prevent method clashes than using underscored method names.
@@ -38,6 +40,11 @@ module Chatcraft; module Plugins
 
       def _group_message_rules
         (@_group_message_rules ||= [])
+      end
+    end
+
+    module InstanceMethods
+      def configure(config)
       end
     end
   end
