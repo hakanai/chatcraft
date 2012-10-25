@@ -23,6 +23,7 @@ module Chatcraft
       plugin_class = Chatcraft::Plugins::Base._known_plugins.find { |p| p.metadata[:name] == name }
       wrapper = Chatcraft::Plugins::Wrapper.new(plugin_class)
       wrapper.configure(config)
+      puts "Configured plugin #{name}"
       @wrappers << wrapper
     end
 
